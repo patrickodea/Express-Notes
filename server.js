@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const termData = require("./api/notes")
+//const termData = require("./api/notes")
 const PORT = 3001;
 
 const app = express();
@@ -16,7 +16,7 @@ res.send()
 
 //API?
 
-app.get("/api/notes", (req, res) => res.json(termData));
+//app.get("/api/notes", (req, res) => res.json(termData));
 
 //GET note route
 app.get("/notes", (req, res) =>
