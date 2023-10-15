@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const noteData = require("./db/db.json");
 const fs = require ("fs");
+const { v4: uuidv4 } = require("uuid");
 
 
 const PORT = 3001;
@@ -13,44 +14,47 @@ app.use(express.json ());
 app.use(express.urlencoded({ extended: true }));
 
 //GET homepage request
-app.get("/", (req, res) =>
-res.send("index.html")
-);
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 
 
 //GET note request
-app.get("/notes", (req, res) =>
+app.get("/notes", (req, res) => {
 res.sendFile(path.join(__dirname, "public/notes.html"))
-);
+});
 
 //API?
 
 app.get("/api/notes", (req, res) => {
-    res.json(noteData)
+  const noteData = JSON.parse(fs.readFileSync("./db/db.json"));
+  res.json(noteData);
 });
+
 
 app.post("/api/notes", (req, res) => {
-
-    if (req.body) {
+  if (req.body) {
     const newNote = {
-        title: req.body[0].title,
-        text: req.body[0].text,
+      title: req.body.title,
+      text: req.body.text,
+      id:  uuidv4(), // generate a unique id for the new note
     };
 
-      // Read the existing notes from the JSON file
+    // Read the existing notes from the JSON file
     const noteData = JSON.parse(fs.readFileSync("./db/db.json"));
 
-      // Add the new note to the existing notes
+    // Add the new note to the existing notes
     noteData.push(newNote);
 
-      // Write the updated notes back to the JSON file
+    // Write the updated notes back to the JSON file
     fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
 
-    res.json(`Note Title ${newNote.title} has been added!`);
-    } else {
+    res.json(newNote);
+  } else {
     res.json("Note Title or Text not found");
-    }
+  }
 });
+
 
 //Sending to PORT
 app.listen(PORT, () => 
