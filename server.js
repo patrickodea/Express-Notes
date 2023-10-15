@@ -1,10 +1,7 @@
 const express = require("express");
 const path = require("path");
-const noteData = require("./db/db.json");
 const fs = require ("fs");
 const { v4: uuidv4 } = require("uuid");
-
-
 const PORT = 3001;
 
 const app = express();
@@ -24,20 +21,19 @@ app.get("/notes", (req, res) => {
 res.sendFile(path.join(__dirname, "public/notes.html"))
 });
 
-//API?
-
+//GET API request
 app.get("/api/notes", (req, res) => {
-  const noteData = JSON.parse(fs.readFileSync("./db/db.json"));
+  const noteData = JSON.parse(fs.readFile("./db/db.json"));
   res.json(noteData);
 });
 
-
+//API POST
 app.post("/api/notes", (req, res) => {
   if (req.body) {
     const newNote = {
       title: req.body.title,
       text: req.body.text,
-      id:  uuidv4(), // generate a unique id for the new note
+      id:  uuidv4(), //generating unique id
     };
 
     // Read the existing notes from the JSON file
@@ -54,7 +50,6 @@ app.post("/api/notes", (req, res) => {
     res.json("Note Title or Text not found");
   }
 });
-
 
 //Sending to PORT
 app.listen(PORT, () => 
