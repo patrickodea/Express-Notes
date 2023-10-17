@@ -23,8 +23,11 @@ res.sendFile(path.join(__dirname, "public/notes.html"))
 
 //GET API request
 app.get("/api/notes", (req, res) => {
+  console.log("hit")
   const noteData = JSON.parse(fs.readFile("./db/db.json"));
-  res.json(noteData);
+  console.log(noteData)
+  return res.json(noteData ?? []);
+  
 });
 
 //API POST
@@ -39,10 +42,10 @@ app.post("/api/notes", (req, res) => {
     // Read the existing notes from the JSON file
     const noteData = JSON.parse(fs.readFileSync("./db/db.json"));
 
-    // Add the new note to the existing notes
+    // Adds the new note to the existing notes?
     noteData.push(newNote);
 
-    // Write the updated notes back to the JSON file
+    // Writing the updated notes back to the JSON file
     fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
 
     res.json(newNote);
