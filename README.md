@@ -5,7 +5,7 @@ This repository allows users to create notes with titles and text.  Users notes 
 
 ![finalproduct](./public/assets/images/webpage-screenshot.png)
 
-To view the Webpage click [here] (https://deploying-express-notes-b95817719010.herokuapp.com/notes).
+To view the Webpage click [here] (https://deploying-express-notes-b95817719010.herokuapp.com).
 
 ## Usage
 Users will click the add note button on the homepage.
