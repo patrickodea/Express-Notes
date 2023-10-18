@@ -32,6 +32,7 @@ app.post("/api/notes", (req, res) => {
       text: req.body.text,
       id:  uuidv4(), //generating unique id
     };
+    console.log(newNote)
     // Read the existing notes from the JSON file
     const noteData = JSON.parse(fs.readFileSync("./db/db.json"));
 
